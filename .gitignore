@@ -3,3 +3,4 @@
 /tmp
 /require-in-the-middle-*.tgz
 *.example.js
+test/webpack/dist/
