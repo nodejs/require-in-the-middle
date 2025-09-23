@@ -35,19 +35,7 @@ if (Module.isBuiltin) { // Added in node v18.6.0, v16.17.0
     return builtinModules.has(moduleName)
   }
 } else {
-  throw new Error('\'require-in-the-middle\' requires Node.js >= v9.3.0 or v8.10.0')
-}
-
-// Feature detection: This property was added in Node.js 8.9.0, the same time
-// as the `paths` options argument was added to the `require.resolve` function,
-// which is the one we want
-let resolve
-if (require.resolve.paths) {
-  resolve = function (moduleName, basedir) {
-    return require.resolve(moduleName, { paths: [basedir] })
-  }
-} else {
-  throw new Error('\'require-in-the-middle\' requires Node.js >= v9.3.0 or v8.10.0')
+  throw new Error('\'require-in-the-middle\' requires Node.js >=v9.3.0 or >=v8.10.0')
 }
 
 // 'foo/bar.js' or 'foo/bar/index.js' => 'foo/bar'
@@ -285,7 +273,7 @@ function Hook (modules, options, onrequire) {
         // figure out if this is the main module file, or a file inside the module
         let res
         try {
-          res = resolve(moduleName, basedir)
+          res = require.resolve(moduleName, { paths: [basedir] })
         } catch (e) {
           debug('could not resolve module: %s', moduleName)
           self._cache.set(filename, exports, core)
