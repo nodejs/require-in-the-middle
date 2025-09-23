@@ -1,5 +1,19 @@
 # require-in-the-middle changelog
 
+## [7.5.2](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v7.5.1...require-in-the-middle-v7.5.2) (2025-02-21)
+
+
+### Bug Fixes
+
+* Remove side effect to fix pnpm + vite issue ([#111](https://github.com/nodejs/require-in-the-middle/issues/111)) ([8039296](https://github.com/nodejs/require-in-the-middle/commit/80392968f5b6169840cbe49bb2675588d3241993))
+
+## [7.5.1](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v7.5.0...require-in-the-middle-v7.5.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* Runtime exception in Node SEA mode ([#106](https://github.com/nodejs/require-in-the-middle/issues/106)) ([d99df4b](https://github.com/nodejs/require-in-the-middle/commit/d99df4b20a90e59cd25ac5d740d2464c9c8f2e7b))
+
 ## v7.5.0
 
 - Use Node.js core `require.resolve()`, rather than `require('resolve').sync()`, when available.
