@@ -1,5 +1,16 @@
 # require-in-the-middle changelog
 
+## [8.0.0](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v7.5.2...require-in-the-middle-v8.0.0) (2025-09-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Minimum Node version is now 8.10.0 or 9.3.0
+
+### Features
+
+* Remove dependency on `resolve` module ([#104](https://github.com/nodejs/require-in-the-middle/issues/104)) ([67076ff](https://github.com/nodejs/require-in-the-middle/commit/67076ff3b0dc16c3db71de335285e07ed1137dc1))
+
 ## [7.5.2](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v7.5.1...require-in-the-middle-v7.5.2) (2025-02-21)
 
 
