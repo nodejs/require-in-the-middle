@@ -52,6 +52,6 @@
   },
   "homepage": "https://github.com/nodejs/require-in-the-middle#readme",
   "engines": {
-    "node": ">=8.6.0"
+    "node": ">=8.10.0"
   }
 }
