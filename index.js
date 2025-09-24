@@ -35,54 +35,7 @@ if (Module.isBuiltin) { // Added in node v18.6.0, v16.17.0
     return builtinModules.has(moduleName)
   }
 } else {
-  const _resolve = require('resolve')
-  const [major, minor] = process.versions.node.split('.').map(Number)
-  if (major === 8 && minor < 8) {
-    // For node versions `[8.0, 8.8)` the "http2" module was built-in but
-    // behind the `--expose-http2` flag. `resolve` only considers unflagged
-    // modules to be core: https://github.com/browserify/resolve/issues/139
-    // However, for `ExportsCache` to work for "http2" we need it to be
-    // considered core.
-    isCore = moduleName => {
-      if (moduleName === 'http2') {
-        return true
-      }
-      // Prefer `resolve.core` lookup to `resolve.isCore(moduleName)` because
-      // the latter is doing version range matches for every call.
-      return !!_resolve.core[moduleName]
-    }
-  } else {
-    isCore = moduleName => {
-      // Prefer `resolve.core` lookup to `resolve.isCore(moduleName)` because
-      // the latter is doing version range matches for every call.
-      return !!_resolve.core[moduleName]
-    }
-  }
-}
-
-let _resolve
-
-function resolve (moduleName, basedir) {
-  // Feature detection: This property was added in Node.js 8.9.0, the same time
-  // as the `paths` options argument was added to the `require.resolve` function,
-  // which is the one we want
-  if (!_resolve) {
-    // require.resolve might be undefined when using Node SEA mode:
-    // https://nodejs.org/api/single-executable-applications.html
-    // Also see https://github.com/nodejs/require-in-the-middle/issues/105
-    if (require.resolve && require.resolve.paths) {
-      _resolve = function (moduleName, basedir) {
-        return require.resolve(moduleName, { paths: [basedir] })
-      }
-    } else {
-      const resolve = require('resolve')
-      _resolve = function (moduleName, basedir) {
-        return resolve.sync(moduleName, { basedir })
-      }
-    }
-  }
-
-  return _resolve(moduleName, basedir)
+  throw new Error('\'require-in-the-middle\' requires Node.js >=v9.3.0 or >=v8.10.0')
 }
 
 // 'foo/bar.js' or 'foo/bar/index.js' => 'foo/bar'
@@ -320,7 +273,7 @@ function Hook (modules, options, onrequire) {
         // figure out if this is the main module file, or a file inside the module
         let res
         try {
-          res = resolve(moduleName, basedir)
+          res = require.resolve(moduleName, { paths: [basedir] })
         } catch (e) {
           debug('could not resolve module: %s', moduleName)
           self._cache.set(filename, exports, core)

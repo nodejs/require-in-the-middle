@@ -6,8 +6,7 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "debug": "^4.3.5",
-    "module-details-from-path": "^1.0.3",
-    "resolve": "^1.22.8"
+    "module-details-from-path": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -53,6 +52,6 @@
   },
   "homepage": "https://github.com/nodejs/require-in-the-middle#readme",
   "engines": {
-    "node": ">=8.6.0"
+    "node": ">=9.3.0 || >=8.10.0 <9.0.0"
   }
 }
