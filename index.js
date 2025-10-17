@@ -106,7 +106,7 @@ function Hook (modules, options, onrequire) {
 
   if (typeof Module._resolveFilename !== 'function') {
     console.error('Error: Expected Module._resolveFilename to be a function (was: %s) - aborting!', typeof Module._resolveFilename)
-    console.error('Please report this error as an issue related to Node.js %s at %s', process.version, require('./package.json').bugs.url)
+    console.error('Please report this error as an issue related to Node.js %s at https://github.com/nodejs/require-in-the-middle/issues', process.version)
     return
   }
 
