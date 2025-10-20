@@ -1,5 +1,12 @@
 # require-in-the-middle changelog
 
+## [8.0.1](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v8.0.0...require-in-the-middle-v8.0.1) (2025-10-17)
+
+
+### Bug Fixes
+
+* Bundler issue caused by `require('./package.json')` ([#118](https://github.com/nodejs/require-in-the-middle/issues/118)) ([b97d3fe](https://github.com/nodejs/require-in-the-middle/commit/b97d3fee1fde180b047f7ec5d6b7aec2c54bdfff))
+
 ## [8.0.0](https://github.com/nodejs/require-in-the-middle/compare/require-in-the-middle-v7.5.2...require-in-the-middle-v8.0.0) (2025-09-24)
 
 
