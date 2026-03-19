@@ -5,6 +5,11 @@ const Module = require('module')
 const debug = require('debug')('require-in-the-middle')
 const moduleDetailsFromPath = require('module-details-from-path')
 
+/* global __non_webpack_require__ */
+const nativeRequire = typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
+  ? __non_webpack_require__ // eslint-disable-line camelcase
+  : require
+
 // Using the default export is discouraged, but kept for backward compatibility.
 // Use this instead:
 //    const { Hook } = require('require-in-the-middle')
@@ -64,7 +69,7 @@ class ExportsCache {
     if (this._localCache.has(filename)) {
       return true
     } else if (!isBuiltin) {
-      const mod = require.cache[filename]
+      const mod = nativeRequire.cache[filename]
       return !!(mod && this._kRitmExports in mod)
     } else {
       return false
@@ -76,7 +81,7 @@ class ExportsCache {
     if (cachedExports !== undefined) {
       return cachedExports
     } else if (!isBuiltin) {
-      const mod = require.cache[filename]
+      const mod = nativeRequire.cache[filename]
       return (mod && mod[this._kRitmExports])
     }
   }
@@ -84,8 +89,8 @@ class ExportsCache {
   set (filename, exports, isBuiltin) {
     if (isBuiltin) {
       this._localCache.set(filename, exports)
-    } else if (filename in require.cache) {
-      require.cache[filename][this._kRitmExports] = exports
+    } else if (filename in nativeRequire.cache) {
+      nativeRequire.cache[filename][this._kRitmExports] = exports
     } else {
       debug('non-core module is unexpectedly not in require.cache: "%s"', filename)
       this._localCache.set(filename, exports)
@@ -273,7 +278,7 @@ function Hook (modules, options, onrequire) {
         // figure out if this is the main module file, or a file inside the module
         let res
         try {
-          res = require.resolve(moduleName, { paths: [basedir] })
+          res = nativeRequire.resolve(moduleName, { paths: [basedir] })
         } catch (e) {
           debug('could not resolve module: %s', moduleName)
           self._cache.set(filename, exports, core)
