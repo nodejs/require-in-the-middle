@@ -23,7 +23,7 @@
     "webpack-cli": "^5.1.0"
   },
   "scripts": {
-    "test": "npm run test:lint && npm run test:tape && npm run test:babel",
+    "test": "npm run test:lint && npm run test:tape && npm run test:babel && npm run test:webpack",
     "test:lint": "standard",
     "test:tape": "tape test/*.js",
     "test:babel": "node test/babel/babel-register.js",
