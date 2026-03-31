@@ -27,4 +27,5 @@ jobs:
         && matrix.node != '10'
         && matrix.node != '12.0'
         && matrix.node != '12'
-        && matrix.node != '14.0' }}
+        && matrix.node != '14.0'
+        && matrix.node != '14' }}

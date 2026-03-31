@@ -27,7 +27,7 @@
     "test:lint": "standard",
     "test:tape": "tape test/*.js",
     "test:babel": "node test/babel/babel-register.js",
-    "test:webpack": "webpack --config test/webpack/webpack.config.js && node test/webpack/dist/bundle.js # requires Node.js >=10.8, >=12.?"
+    "test:webpack": "webpack --config test/webpack/webpack.config.js && node test/webpack/dist/bundle.js # requires node 16+"
   },
   "repository": {
     "type": "git",
