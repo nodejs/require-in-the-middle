@@ -5,6 +5,9 @@ const Module = require('module')
 const debug = require('debug')('require-in-the-middle')
 const moduleDetailsFromPath = require('module-details-from-path')
 
+// Webpack replaces `require` with its own fn that is insufficient for how
+// require is used in this package. It is strongly hoped no other
+// bundler-specific hacks are needed.
 /* global __non_webpack_require__ */
 const nativeRequire = typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
   ? __non_webpack_require__ // eslint-disable-line camelcase
