@@ -20,3 +20,12 @@ jobs:
         node-version: ${{ matrix.node }}
     - run: npm install
     - run: npm test
+    # Run the webpack tests for Node.js versions that webpack[-cli] support.
+    - run: npm run test:webpack
+      if: ${{ matrix.node != '8.10'
+        && matrix.node != '10.0'
+        && matrix.node != '10'
+        && matrix.node != '12.0'
+        && matrix.node != '12'
+        && matrix.node != '14.0'
+        && matrix.node != '14' }}
