@@ -54,6 +54,12 @@ const normalize = /([/\\]index)?(\.js)?$/
 // In some special cases -- e.g. some other `require()` hook swapping out
 // `Module._cache` like `@babel/register` -- a non-core module won't be in
 // `require.cache`. In that case this falls back to caching on the internal Map.
+//
+// `require.cache` itself can also be missing entirely -- e.g. when this
+// package is bundled by a tool like esbuild for an ESM target, the bundler
+// substitutes its own `require` shim (without a `.cache` property) for the
+// real Node.js `require`. This also falls back to the internal Map.
+// https://github.com/nodejs/require-in-the-middle/issues/113
 class ExportsCache {
   constructor () {
     this._localCache = new Map() // <module filename or id> -> <exports>
@@ -63,7 +69,7 @@ class ExportsCache {
   has (filename, isBuiltin) {
     if (this._localCache.has(filename)) {
       return true
-    } else if (!isBuiltin) {
+    } else if (!isBuiltin && require.cache) {
       const mod = require.cache[filename]
       return !!(mod && this._kRitmExports in mod)
     } else {
@@ -75,7 +81,7 @@ class ExportsCache {
     const cachedExports = this._localCache.get(filename)
     if (cachedExports !== undefined) {
       return cachedExports
-    } else if (!isBuiltin) {
+    } else if (!isBuiltin && require.cache) {
       const mod = require.cache[filename]
       return (mod && mod[this._kRitmExports])
     }
@@ -84,7 +90,7 @@ class ExportsCache {
   set (filename, exports, isBuiltin) {
     if (isBuiltin) {
       this._localCache.set(filename, exports)
-    } else if (filename in require.cache) {
+    } else if (require.cache && filename in require.cache) {
       require.cache[filename][this._kRitmExports] = exports
     } else {
       debug('non-core module is unexpectedly not in require.cache: "%s"', filename)
