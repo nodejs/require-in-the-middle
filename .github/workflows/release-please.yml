@@ -5,20 +5,18 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write  # Required for OIDC
-  contents: read
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
       release_created:  ${{ steps.release.outputs.release_created }}
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.RELEASE_PLEASE_GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -26,6 +24,9 @@ jobs:
     needs: release-please
     if: ${{ needs.release-please.outputs.release_created }}
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
